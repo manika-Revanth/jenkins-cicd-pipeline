@@ -28,7 +28,7 @@ pipeline {
       }
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
-          dir('spring-boot-demo') {
+          dir('spring-boot-app') {
             sh '''
               mvn sonar:sonar \
                 -Dsonar.login=$SONAR_AUTH_TOKEN \
