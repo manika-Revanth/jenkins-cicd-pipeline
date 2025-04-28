@@ -2,7 +2,10 @@ apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
   name: example-argocd
+  namespace: argocd   # Important to define a namespace
   labels:
+    app.kubernetes.io/name: argocd
+    app.kubernetes.io/part-of: argocd
     example: basic
 spec:
   server:

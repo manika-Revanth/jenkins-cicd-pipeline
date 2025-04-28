@@ -1,13 +1,15 @@
-# You can change this base image to anything else
-# But make sure to use the correct version of Java
-FROM adoptopenjdk/openjdk11:alpine-jre
+# Use OpenJDK 17 as the base image (for Java 17 support)
+FROM openjdk:17-jre-slim
 
 # Simply the artifact path
 ARG artifact=target/spring-boot-web.jar
 
+# Set the working directory inside the container
 WORKDIR /opt/app
 
-COPY ${artifact} app.jar
+# Copy the built JAR file from target (make sure to build it first using `mvn clean package`)
+COPY target/spring-boot-web.jar app.jar
 
-# This should not be changed
-ENTRYPOINT ["java","-jar","app.jar"]
+# Run the Spring Boot application when the container starts
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
