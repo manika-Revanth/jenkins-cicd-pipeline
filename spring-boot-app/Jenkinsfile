@@ -16,7 +16,7 @@ pipeline {
       steps {
         script {
          // Ensure we're in the correct directory where pom.xml is located
-          dir('/var/lib/jenkins/workspace/demo/spring-boot-demo') 
+          dir('/var/lib/jenkins/workspace/demo/spring-boot-demo') {
            sh 'mvn clean package'
       }
     }
