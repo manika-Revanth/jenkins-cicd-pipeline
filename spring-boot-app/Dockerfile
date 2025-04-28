@@ -1,5 +1,5 @@
 # Use OpenJDK 17 as the base image (for Java 17 support)
-FROM openjdk:17-jre-slim
+FROM openjdk:17-jdk-slim
 
 # Simply the artifact path
 ARG artifact=target/spring-boot-web.jar
