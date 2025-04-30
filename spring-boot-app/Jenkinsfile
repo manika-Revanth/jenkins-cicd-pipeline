@@ -41,7 +41,7 @@ pipeline {
 
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "revanth1209/ultimate-cicd:${BUILD_NUMBER}"
+        DOCKER_IMAGE = "revanth1209/ultimate-cicd:1"
       }
       steps {
         script {
