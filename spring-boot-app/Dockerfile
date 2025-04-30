@@ -1,15 +1,29 @@
-# Use OpenJDK 17 as the base image (for Java 17 support)
-FROM openjdk:17-jdk-slim
+# Use the official Maven image as the base
+FROM maven:3.8.5-openjdk-17-slim
 
-# Simply the artifact path
-ARG artifact=target/spring-boot-web.jar
+# Set environment variables for Maven
+ENV MAVEN_HOME /usr/share/maven
+ENV PATH $MAVEN_HOME/bin:$PATH
 
-# Set the working directory inside the container
-WORKDIR /opt/app
+# Switch to root to install dependencies
+USER root
 
-# Copy the built JAR file from target (make sure to build it first using `mvn clean package`)
-COPY target/spring-boot-web.jar app.jar
+# Install Docker CLI and other useful tools
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    vim \
+    docker.io \
+    && rm -rf /var/lib/apt/lists/*
 
-# Run the Spring Boot application when the container starts
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Set the working directory
+WORKDIR /workspace
 
+# Add the Jenkins agent user (if not already)
+RUN groupadd -r jenkins && useradd -r -g jenkins jenkins
+
+# (Optional) Switch back to non-root user
+USER jenkins
+
+# Entry point
+CMD ["tail", "-f", "/dev/null"]
