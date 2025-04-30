@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'revanth1209/revanth-maven-agent:v1'
+      image 'revanth1209/revanth-maven-docker:v2'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
     }
   }
@@ -41,7 +41,7 @@ pipeline {
 
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "revanth1209/ultimate-cicd:1"
+        DOCKER_IMAGE = "revanth1209/ultimate-cicd:${BUILD_NUMBER}"
       }
       steps {
         script {
