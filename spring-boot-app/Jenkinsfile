@@ -40,19 +40,22 @@ pipeline {
     }
 
     stage('Build and Push Docker Image') {
-      environment {
-        DOCKER_IMAGE = "revanth1209/ultimate-cicd:${BUILD_NUMBER}"
-      }
-      steps {
-        script {
-          sh 'docker build -t ${DOCKER_IMAGE} .'
-          def dockerImage = docker.image("${DOCKER_IMAGE}")
-          docker.withRegistry('https://index.docker.io/v1/', 'docker-revanth') {
-            dockerImage.push()
-          }
-        }
+  environment {
+    DOCKER_IMAGE = "revanth1209/ultimate-cicd:${BUILD_NUMBER}"
+  }
+  steps {
+    script {
+      // Build from custom Dockerfile path
+      sh "docker build -f spring-boot-app/dockerfile -t ${DOCKER_IMAGE} ."
+
+      // Push the built image
+      def dockerImage = docker.image("${DOCKER_IMAGE}")
+      docker.withRegistry('https://index.docker.io/v1/', 'docker-revanth') {
+        dockerImage.push()
       }
     }
+  }
+}
 
     stage('Update Deployment File') {
       environment {
